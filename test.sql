@@ -2,4 +2,4 @@ select UserInfo.uid, cname, address
 from UserInfo, Live, House
 where UserInfo.uid = Live.uid
     and Live.hid = House.hid
-    and cname = '王大明'
+    and address like '台中市%'
