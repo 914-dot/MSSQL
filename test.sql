@@ -1,14 +1,18 @@
-select (
-    select count(*)
-from House left join Live on House.hid = Live.hid
-where uid is Null
-) / cast((
-        select count(*) from House
- ) as float)
--- 計算空屋率
-
-select count(*) from House
-
-select count(*)
-from House left join Live on House.hid = Live.hid
-where uid is Null
+-- ============== 電話帳單金額總和的極端直查詢　===============
+select *
+from (
+    SELECT
+        tel,
+        SUM(fee) AS total_fee
+    FROM Bill
+    GROUP BY tel
+) as x
+where total_fee = (
+    select max(total_fee) as min_total_fee
+    from (
+        SELECT
+            SUM(fee) AS total_fee
+        FROM Bill
+        GROUP BY tel
+    ) as x
+)
