@@ -8,3 +8,9 @@ select *, concat(
 )
 from Bill
 -- 轉換中華民國
+
+select datetrunc(year, getdate())
+select datetrunc(month, getdate())
+select datetrunc(week, getdate())
+select datetrunc(iso_week, getdate())
+-- 去零頭
