@@ -14,21 +14,17 @@ select datepart(quarter, getdate())
 
 -- Q1:2019年每季帳單金額總和
 
--- try==>
-select *
-from Bill
-where datediff(year, '2019/1/1', '2019/12/31') > 0
-
-select sum(fee) as sum_fee
-from Bill
-where datediff(quarter, '2019/1/1', '2019/12/31') > 0
-
-
--- AI ==>
-SELECT DATEPART(quarter, dd), SUM(fee)
-FROM Bill
-WHERE YEAR(dd) = 2019
-GROUP BY DATEPART(quarter, dd)
+select q, sum(sum_fee) as sum_fee from (
+    select datepart(quarter, dd) as q, sum(fee) as sum_fee
+    from Bill
+    where dd between '2019/1/1' and '2019/12/31 23:59:59.999'
+    group by datepart(quarter, dd)
+    union all select 1, 0
+    union all select 2, 0
+    union all select 3, 0
+    union all select 4, 0
+) as tmp
+group by q
 
 -- Q2:2019年上半年和下半年帳單金額總和
 
